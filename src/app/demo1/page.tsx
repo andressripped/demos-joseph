@@ -1,13 +1,13 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import Link from "next/link";
 
-const fadeUp = {
+const fadeUp: Variants = {
   hidden: { opacity: 0, y: 36 },
   visible: (i: number) => ({
     opacity: 1, y: 0,
-    transition: { duration: 0.8, delay: i * 0.12, ease: "easeOut" },
+    transition: { duration: 0.8, delay: i * 0.12, ease: "easeOut" as const },
   }),
 };
 
