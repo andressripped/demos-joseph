@@ -1,11 +1,17 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Outfit } from "next/font/google";
+import { Playfair_Display, Outfit, Courgette } from "next/font/google";
 import "./globals.css";
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
   subsets: ["latin"],
   style: ["normal", "italic"],
+});
+
+const courgette = Courgette({
+  weight: "400",
+  variable: "--font-courgette",
+  subsets: ["latin"],
 });
 
 const outfit = Outfit({
@@ -26,7 +32,7 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${playfair.variable} ${outfit.variable} h-full antialiased`}
+      className={`${playfair.variable} ${outfit.variable} ${courgette.variable} h-full antialiased`}
     >
       <body suppressHydrationWarning className="min-h-full flex flex-col font-sans">{children}</body>
     </html>

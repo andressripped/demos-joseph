@@ -20,9 +20,15 @@ export const SectionOrigen = () => {
         </div>
         <div className="md:col-span-2">
           <motion.div initial={{ opacity: 0, scale: 0.88 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 1.2 }}
-            className="aspect-square rounded-3xl flex items-center justify-center"
+            className="aspect-square rounded-3xl flex items-center justify-center overflow-hidden relative group"
             style={{ border: "1px solid rgba(193,83,59,0.18)", background: "rgba(193,83,59,0.04)" }}>
-            <p className="font-serif italic text-center select-none" style={{ fontSize: "clamp(60px,10vw,120px)", color: "rgba(193,83,59,0.22)" }}>1632</p>
+            <img 
+              src="/joseph-origen.png" 
+              alt="Origen de Joseph Ximénez" 
+              className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#100F0D] to-transparent opacity-40" />
+            <p className="absolute bottom-6 left-6 font-serif italic text-2xl" style={{ color: "rgba(221,216,207,0.8)" }}>1632</p>
           </motion.div>
         </div>
       </div>
