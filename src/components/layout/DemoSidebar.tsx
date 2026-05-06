@@ -16,20 +16,44 @@ export const DemoSidebar = () => {
   const [isFooterVisible, setIsFooterVisible] = useState(false);
 
   useEffect(() => {
-    const observerOptions = {
-      root: null,
-      rootMargin: "-40% 0px -40% 0px",
-      threshold: 0,
-    };
+    // Ref para rastrear qué secciones están visibles en todo momento
+    const visibleSections = new Set<string>();
 
     const observerCallback: IntersectionObserverCallback = (entries) => {
       entries.forEach((entry) => {
-        if (entry.target.id === "footer") {
+        const id = entry.target.id;
+        
+        if (id === "footer") {
           setIsFooterVisible(entry.isIntersecting);
-        } else if (entry.isIntersecting) {
-          setActiveSection(entry.target.id);
+          return;
+        }
+
+        if (entry.isIntersecting) {
+          visibleSections.add(id);
+        } else {
+          visibleSections.delete(id);
         }
       });
+
+      // Lógica de selección:
+      // Queremos que la sección activa sea la "más avanzada" en la cronología 
+      // de entre las que son visibles en el área central.
+      const visibleArray = Array.from(visibleSections);
+      if (visibleArray.length > 0) {
+        const latestVisible = demoSections
+          .filter(s => visibleSections.has(s.id))
+          .pop(); // Toma el último en el orden del array demoSections
+        
+        if (latestVisible) {
+          setActiveSection(latestVisible.id);
+        }
+      }
+    };
+
+    const observerOptions = {
+      root: null,
+      rootMargin: "-25% 0px -25% 0px", // Detecta en el 50% central de la pantalla
+      threshold: 0.1,
     };
 
     const observer = new IntersectionObserver(observerCallback, observerOptions);

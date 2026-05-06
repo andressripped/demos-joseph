@@ -24,6 +24,8 @@ export const metadata: Metadata = {
   description: "Homenaje a Joseph Ximénez, místico y mártir del Desierto de la Candelaria.",
 };
 
+// src/app/layout.tsx
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -32,9 +34,16 @@ export default function RootLayout({
   return (
     <html
       lang="es"
+      suppressHydrationWarning
       className={`${playfair.variable} ${outfit.variable} ${courgette.variable} h-full antialiased`}
     >
-      <body suppressHydrationWarning className="min-h-full flex flex-col font-sans">{children}</body>
+      <body suppressHydrationWarning className="min-h-full flex flex-col font-sans">
+        {children}
+      </body>
     </html>
   );
 }
+
+
+// src/app/layout.tsx
+
