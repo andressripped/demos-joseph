@@ -1,6 +1,55 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
+import { section } from "framer-motion/client";
+
+function DesertStep({ step, index }: { step: any, index: number }) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: false, margin: "0px 0px -33% 0px" });
+
+  return (
+    <motion.div 
+      ref={ref}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-15%" }}
+      transition={{ duration: 1, delay: index * 0.1 }}
+      className={`relative flex flex-col md:flex-row gap-8 items-start md:items-center ${index % 2 !== 0 ? 'md:flex-row-reverse text-left md:text-right' : 'text-left'}`}
+    >
+      {/* Punto iluminado */}
+      <div className="absolute left-[24px] md:left-1/2 w-3 h-3 rounded-full bg-[#C1533B] md:-translate-x-1/2 mt-1.5 md:mt-0 shadow-[0_0_15px_rgba(193,83,59,0.8)]" />
+      
+      {/* Contenido */}
+      <div className="w-full md:w-1/2 pl-16 md:pl-0">
+        <div className={`${index % 2 !== 0 ? 'md:pr-16' : 'md:pl-16'}`}>
+          <span className="font-mono text-[#C1533B] text-[10px] tracking-[0.3em] uppercase block mb-3">
+            {step.subtitle}
+          </span>
+          <h3 className="font-serif text-2xl md:text-4xl text-[#E8E2D2] mb-4">
+            {step.title}
+          </h3>
+          
+          {/* Contenido Acordeón (Solo Móvil) */}
+          <div 
+            className={`grid transition-[grid-template-rows,opacity,margin-top] duration-700 ease-out md:!grid-rows-[1fr] md:!opacity-100 md:!mt-0 ${
+              isInView ? "grid-rows-[1fr] opacity-100 mt-4" : "grid-rows-[0fr] opacity-0 mt-0"
+            }`}
+          >
+            <div className="overflow-hidden">
+              <p className="text-[#E8E2D2]/60 text-base md:text-xl leading-relaxed font-light">
+                {step.text}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      {/* Espaciador para centrar en Desktop */}
+      <div className="hidden md:block w-1/2" />
+    </motion.div>
+  );
+}
 
 export default function Act3() {
   const desertSteps = [
@@ -33,7 +82,8 @@ export default function Act3() {
   ];
 
   return (
-    <section id="retiro" className="bg-transparent relative z-20 w-full overflow-hidden">
+    <>
+      <section id="retiro" className="bg-transparent relative z-20 w-full overflow-hidden">
       
       {/* 
         ========================================
@@ -65,46 +115,19 @@ export default function Act3() {
           
           <div className="space-y-24 md:space-y-32">
             {desertSteps.map((step, i) => (
-              <motion.div 
-                key={i}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-15%" }}
-                transition={{ duration: 1, delay: i * 0.1 }}
-                className={`relative flex flex-col md:flex-row gap-8 items-start md:items-center ${i % 2 !== 0 ? 'md:flex-row-reverse text-left md:text-right' : 'text-left'}`}
-              >
-                {/* Punto iluminado */}
-                <div className="absolute left-[24px] md:left-1/2 w-3 h-3 rounded-full bg-[#C1533B] md:-translate-x-1/2 mt-1.5 md:mt-0 shadow-[0_0_15px_rgba(193,83,59,0.8)]" />
-                
-                {/* Contenido */}
-                <div className="w-full md:w-1/2 pl-16 md:pl-0">
-                  <div className={`${i % 2 !== 0 ? 'md:pr-16' : 'md:pl-16'}`}>
-                    <span className="font-mono text-[#C1533B] text-[10px] tracking-[0.3em] uppercase block mb-3">
-                      {step.subtitle}
-                    </span>
-                    <h3 className="font-serif text-2xl md:text-4xl text-[#E8E2D2] mb-4">
-                      {step.title}
-                    </h3>
-                    <p className="text-[#E8E2D2]/60 text-base md:text-xl leading-relaxed font-light">
-                      {step.text}
-                    </p>
-                  </div>
-                </div>
-                
-                {/* Espaciador para centrar en Desktop */}
-                <div className="hidden md:block w-1/2" />
-              </motion.div>
+              <DesertStep key={i} step={step} index={i} />
             ))}
           </div>
         </div>
       </div>
+    </section>
 
-      {/* 
-        ========================================
-        2. EL MARTIRIO (La Inquisición y la Hoguera)
-        ========================================
-      */}
-      <div id="hoguera" className="relative min-h-[100dvh] flex flex-col items-center justify-center px-6 py-32 overflow-hidden bg-transparent border-t border-[#C1533B]/5">
+    {/* 
+      ========================================
+      2. EL MARTIRIO (La Inquisición y la Hoguera)
+      ========================================
+    */}
+    <section id="hoguera" className="relative min-h-[100dvh] flex flex-col items-center justify-center px-6 py-32 overflow-hidden bg-transparent border-t border-[#C1533B]/5">
         
         {/* Atmósfera de Fuego (CSS Puro de alto rendimiento) */}
         <div className="absolute inset-0 pointer-events-none mix-blend-screen opacity-80 flex items-end justify-center">
@@ -144,7 +167,7 @@ export default function Act3() {
             </p>
           </div>
         </motion.div>
-      </div>
+      </section>
 
       {/* Keyframes de Fuego Optimizados */}
       <style dangerouslySetInnerHTML={{__html: `
@@ -153,7 +176,6 @@ export default function Act3() {
           100% { transform: scaleY(1.1); opacity: 0.9; }
         }
       `}} />
-
-    </section>
+    </>
   );
 }
