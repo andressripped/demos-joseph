@@ -5,7 +5,7 @@ import { BookOpen, MapPin, Mail } from "lucide-react";
 
 export const Footer = () => {
   return (
-    <footer className="bg-[#050505] text-[#E8E2D2] pt-24 pb-12 border-t border-[#C1533B]/10 z-40 relative">
+    <footer id="footer" className="bg-[#050505] text-[#E8E2D2] pt-24 pb-12 border-t border-[#C1533B]/10 z-40 relative">
       <div className="max-w-6xl mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8 mb-16">
         
         {/* Columna 1: Marca y descripción */}

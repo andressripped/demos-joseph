@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 
 export const DemoMartirio = () => {
   return (
-    <section id="martirio" className="relative py-32 md:py-48 px-6 overflow-hidden flex flex-col items-center justify-center min-h-[80vh]" style={{ background: "#100F0D" }}>
+    <section id="hoguera" className="relative py-32 md:py-48 px-6 overflow-hidden flex flex-col items-center justify-center min-h-[80vh]" style={{ background: "#100F0D" }}>
       
       {/* 
         OPTIMIZACIÓN MOBILE-FIRST:

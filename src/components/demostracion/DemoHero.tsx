@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 
 export const DemoHero = () => {
   return (
-    <section className="relative min-h-[100svh] flex flex-col items-center justify-center overflow-hidden px-4 md:px-6">
+    <section id="inicio" className="relative min-h-[100svh] flex flex-col items-center justify-center overflow-hidden px-4 md:px-6">
       {/* 
         OPTIMIZACIÓN MOBILE-FIRST:
         Reemplazamos la animación continua de Framer Motion (JS) por una clase CSS/Tailwind 
