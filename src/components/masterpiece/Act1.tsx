@@ -1,28 +1,24 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { ChevronDown } from "lucide-react";
 
 export default function Act1() {
   return (
-    <section className="relative min-h-[100dvh] w-full flex flex-col items-center justify-center overflow-hidden bg-[#050505] selection:bg-[#C1533B] selection:text-[#F4F1EA]">
+    <section id="inicio" className="relative min-h-[100dvh] w-full flex flex-col items-center justify-center overflow-hidden">
       
-      {/* 
-        1. TEXTURA Y ATMÓSFERA (MOBILE PERFECT)
-        Fondo oscuro absoluto con un filtro de ruido SVG en línea para darle
-        un toque de "película antigua" o pergamino quemado, sin cargar imágenes.
-      */}
-      <div 
-        className="absolute inset-0 opacity-[0.04] pointer-events-none mix-blend-screen"
-        style={{ backgroundImage: "url('data:image/svg+xml;utf8,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')" }}
+      {/* Glow animado copiado de la página principal */}
+      <motion.div 
+        animate={{ scale: [1, 1.12, 1], opacity: [0.18, 0.35, 0.18] }} 
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full pointer-events-none"
+        style={{ background: "radial-gradient(circle,#C1533B 0%,transparent 70%)" }} 
       />
 
-      {/* 
-        2. GLOW CENTRAL (Optimizado con CSS)
-        Reemplazamos blurs masivos que rompen el móvil por un gradiente radial sutil.
-      */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120vw] h-[120vw] md:w-[800px] md:h-[800px] pointer-events-none opacity-[0.07]">
-        <div className="w-full h-full rounded-full" style={{ background: "radial-gradient(circle at center, #C1533B 0%, transparent 70%)" }} />
-      </div>
+      {/* Grid de puntos copiado de la página principal */}
+      <div className="absolute inset-0 opacity-[0.04] pointer-events-none"
+        style={{ backgroundImage: "radial-gradient(circle,#DDD8CF 1px,transparent 1px)", backgroundSize: "28px 28px" }} 
+      />
 
       {/* 
         3. CONTENIDO PRINCIPAL
@@ -36,10 +32,10 @@ export default function Act1() {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.5, delay: 0.5, ease: "easeOut" }}
-          className="mb-8 md:mb-12"
+          className="mb-8 md:mb-10"
         >
-          <p className="font-mono text-[10px] md:text-xs tracking-[0.4em] md:tracking-[0.6em] uppercase text-[#C1533B] drop-shadow-sm">
-            Cartagena de Indias · 30 de Mayo
+          <p className="text-[10px] md:text-xs tracking-[0.4em] md:tracking-[0.55em] uppercase text-[#C1533B] drop-shadow-sm">
+            Desierto de la Candelaria · 1665–1688
           </p>
         </motion.div>
 
@@ -48,10 +44,10 @@ export default function Act1() {
           initial={{ opacity: 0, scale: 0.95, filter: "blur(4px)" }}
           animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
           transition={{ duration: 2, delay: 1, ease: [0.2, 0.65, 0.3, 0.9] }}
-          className="font-serif text-[#E8E2D2] flex flex-col items-center leading-[0.85] md:leading-[0.8]"
+          className="font-serif leading-[0.85] flex flex-col items-center"
         >
-          {/* El tamaño máximo es 16rem en desktop, pero baja dinámicamente en mobile sin romper márgenes */}
-          <span className="block text-[clamp(5rem,22vw,16rem)] tracking-tight">1688</span>
+          <span className="block text-[clamp(3.5rem,15vw,11rem)] text-[#E8E2D2]">Joseph</span>
+          <span className="block italic text-[clamp(3rem,13vw,9.5rem)] text-[#C1533B] mt-0 md:-mt-2 pr-4 md:pr-12">Ximénez</span>
         </motion.h1>
 
         {/* Cita / Bajada */}
@@ -59,12 +55,12 @@ export default function Act1() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.5, delay: 2.5 }}
-          className="mt-12 md:mt-20 flex flex-col items-center"
+          className="mt-10 md:mt-16 flex flex-col items-center"
         >
           <div className="w-[1px] h-10 md:h-16 bg-gradient-to-b from-[#C1533B] to-transparent mb-6 md:mb-10 opacity-60" />
           
-          <p className="font-serif italic text-lg md:text-2xl lg:text-3xl text-[#E8E2D2]/70 max-w-[280px] md:max-w-2xl leading-relaxed md:leading-snug">
-            El único místico ermitaño jamás quemado vivo por el Tribunal en toda su historia.
+          <p className="text-lg md:text-xl font-light max-w-xs md:max-w-md mx-auto text-[#E8E2D2]/60 leading-relaxed text-center">
+            El ermitaño del Desierto de la Candelaria. Una historia que la hoguera no pudo borrar.
           </p>
         </motion.div>
 
@@ -72,29 +68,28 @@ export default function Act1() {
 
       {/* 
         4. INDICADOR DE SCROLL 
-        Sutil, animado con CSS nativo para no gastar batería.
       */}
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 3.5 }}
-        className="absolute bottom-8 md:bottom-12 flex flex-col items-center gap-4"
+        className="absolute bottom-8 md:bottom-10 flex flex-col items-center gap-1"
       >
-        <span className="font-mono text-[9px] md:text-[10px] tracking-widest uppercase text-[#E8E2D2]/30">
-          Descubrir
+        <span className="font-mono text-[9px] md:text-[10px] tracking-widest uppercase text-[#E8E2D2]/30 mb-1">
+          Descubrir más
         </span>
-        <div className="w-[1px] h-8 md:h-12 overflow-hidden bg-[#E8E2D2]/10 relative">
-          <div className="w-full h-1/2 bg-[#C1533B] absolute top-0 animate-[scroll-down_2s_infinite]" />
-        </div>
+        <motion.div
+          animate={{ y: [0, 6, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <ChevronDown 
+            size={34} 
+            color="#C1533B" 
+            strokeWidth={1.5} 
+            className="opacity-80 drop-shadow-[0_0_8px_rgba(193,83,59,0.8)]"
+          />
+        </motion.div>
       </motion.div>
-
-      <style dangerouslySetInnerHTML={{__html: `
-        @keyframes scroll-down {
-          0% { transform: translateY(-100%); opacity: 0; }
-          50% { opacity: 1; }
-          100% { transform: translateY(200%); opacity: 0; }
-        }
-      `}} />
 
     </section>
   );

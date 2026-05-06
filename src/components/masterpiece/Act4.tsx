@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 export default function Act4() {
   return (
-    <section className="relative z-30 bg-[#050505] text-[#E8E2D2] pt-32 pb-12 overflow-hidden border-t border-[#C1533B]/10">
+    <section id="legado" className="relative z-30 bg-transparent text-[#E8E2D2] pt-32 pb-12 overflow-hidden border-t border-[#C1533B]/10">
       
       {/* Luz tenue de fondo para diferenciar la época */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1000px] h-[500px] bg-[radial-gradient(ellipse_at_top,rgba(232,226,210,0.03)_0%,transparent_70%)] pointer-events-none" />
