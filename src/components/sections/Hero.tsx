@@ -6,7 +6,7 @@ import { ChevronDown } from "lucide-react";
 
 export const Hero = () => {
   return (
-    <section className="h-screen flex flex-col items-center justify-center relative overflow-hidden">
+    <section id="inicio" className="h-screen flex flex-col items-center justify-center relative overflow-hidden">
       {/* Glow animado */}
       <motion.div animate={{ scale: [1, 1.12, 1], opacity: [0.18, 0.35, 0.18] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full pointer-events-none"
