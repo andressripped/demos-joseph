@@ -16,7 +16,7 @@ export const DemoOrigen = () => {
   const lineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
   return (
-    <section ref={sectionRef} id="origen" className="relative py-24 md:py-32 px-6 md:px-20 overflow-hidden" style={{ background: "#100F0D" }}>
+    <section ref={sectionRef} id="pasado" className="relative py-24 md:py-32 px-6 md:px-20 overflow-hidden" style={{ background: "#100F0D" }}>
       
       {/* 
         LÍNEA DE TIEMPO VERTICAL (MOBILE-FIRST)

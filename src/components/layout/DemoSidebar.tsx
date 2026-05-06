@@ -13,6 +13,7 @@ const demoSections = [
 
 export const DemoSidebar = () => {
   const [activeSection, setActiveSection] = useState("inicio");
+  const [isFooterVisible, setIsFooterVisible] = useState(false);
 
   useEffect(() => {
     const observerOptions = {
@@ -23,7 +24,9 @@ export const DemoSidebar = () => {
 
     const observerCallback: IntersectionObserverCallback = (entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
+        if (entry.target.id === "footer") {
+          setIsFooterVisible(entry.isIntersecting);
+        } else if (entry.isIntersecting) {
           setActiveSection(entry.target.id);
         }
       });
@@ -36,6 +39,9 @@ export const DemoSidebar = () => {
       if (element) observer.observe(element);
     });
 
+    const footerElement = document.getElementById("footer");
+    if (footerElement) observer.observe(footerElement);
+
     return () => observer.disconnect();
   }, []);
 
@@ -47,7 +53,7 @@ export const DemoSidebar = () => {
   };
 
   const activeData = demoSections.find(s => s.id === activeSection) || demoSections[0];
-  const isVisible = activeSection !== "inicio";
+  const isVisible = activeSection !== "inicio" && !isFooterVisible;
 
   return (
     <>

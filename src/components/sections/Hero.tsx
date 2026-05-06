@@ -2,6 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import { ChevronDown } from "lucide-react";
 
 export const Hero = () => {
   return (
@@ -29,11 +30,18 @@ export const Hero = () => {
       </motion.div>
 
       {/* Scroll indicator */}
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.8 }}
-        className="absolute bottom-10 flex flex-col items-center gap-2">
-        <span className="text-xs tracking-widest uppercase" style={{ color: "rgba(221,216,207,0.25)" }}>Bajar</span>
-        <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 1.8, repeat: Infinity }}
-          className="w-px h-10" style={{ background: "rgba(193,83,59,0.4)" }} />
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.8 }}
+        className="absolute bottom-10 flex flex-col items-center gap-1"
+      >
+        <motion.div
+          animate={{ y: [0, 6, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <ChevronDown size={34} style={{ color: "rgba(193,83,59,0.6)" }} strokeWidth={1.5} />
+        </motion.div>
       </motion.div>
     </section>
   );

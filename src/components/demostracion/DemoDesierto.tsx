@@ -23,7 +23,7 @@ export const DemoDesierto = () => {
   ];
 
   return (
-    <section id="desierto" className="py-24 md:py-32 overflow-hidden" style={{ background: "#100F0D" }}>
+    <section id="retiro" className="py-24 md:py-32 overflow-hidden" style={{ background: "#100F0D" }}>
       <div className="max-w-5xl mx-auto px-6 md:px-20 mb-12 md:mb-16">
         <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 1 }}>
           <span className="block font-mono text-[10px] md:text-xs tracking-widest mb-4 md:mb-6 text-terracotta">
