@@ -2,7 +2,6 @@
 
 import { Navbar } from "@/layout/Navbar";
 import { Footer } from "@/layout/Footer";
-import { InteractiveMap } from "./components/InteractiveMap";
 
 export default function BlogPage() {
   return (
@@ -11,9 +10,8 @@ export default function BlogPage() {
       
       <main className="font-sans flex flex-col min-h-[100dvh] pt-[76px]" style={{ background:"#F4F1EA", color:"#2B2A29" }}>
         
-        {/* MAPA INTERACTIVO (INTRODUCCIÓN) */}
-        <div className="w-full relative z-20 flex-1" style={{ background: "#100F0D" }}>
-          <InteractiveMap />
+        <div className="w-full flex-1 flex items-center justify-center">
+          <p className="text-xl font-serif text-[#2B2A29]/50">El contenido del blog irá aquí</p>
         </div>
 
       </main>
