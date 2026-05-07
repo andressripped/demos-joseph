@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Navbar } from "@/layout/Navbar";
 import { Footer } from "@/layout/Footer";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { InteractiveMap } from "./components/InteractiveMap";
 
 // Eliminamos la propiedad "color" y usamos #7A3B22 globalmente para el activo.
 const ACTIVE_COLOR = "#7A3B22";
@@ -44,6 +45,11 @@ export default function BlogPage() {
       
       <main className="font-sans flex flex-col min-h-[100dvh] pt-[76px]" style={{ background:"#F4F1EA", color:"#2B2A29" }}>
         
+        {/* MAPA INTERACTIVO (INTRODUCCIÓN) */}
+        <div className="w-full relative z-20" style={{ background: "#100F0D" }}>
+          <InteractiveMap />
+        </div>
+
         {/* LAYOUT PRINCIPAL DEL LIBRO */}
         <div className="flex flex-col md:flex-row flex-1">
           
