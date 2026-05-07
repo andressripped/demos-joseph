@@ -1,0 +1,75 @@
+"use client";
+
+import React from "react";
+import { BookOpen, MapPin, Mail } from "lucide-react";
+
+export const Footer = () => {
+  return (
+    <footer id="footer" className="bg-[#050505] text-[#E8E2D2] pt-24 pb-12 border-t border-[#C1533B]/10 z-40 relative">
+      <div className="max-w-6xl mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8 mb-16">
+        
+        {/* Columna 1: Marca y descripción */}
+        <div className="md:col-span-2">
+          <span className="font-serif italic text-3xl md:text-4xl text-[#C1533B] drop-shadow-sm block mb-6">
+            Joseph Ximénez
+          </span>
+          <p className="text-[#E8E2D2]/60 font-light leading-relaxed max-w-sm mb-8">
+            El ermitaño místico del Desierto de la Candelaria. Una historia de herejía, silencio y martirio que el fuego de la Inquisición no logró borrar de la memoria de Colombia.
+          </p>
+          <div className="flex gap-4 text-[#C1533B]/80">
+            <a href="#" aria-label="Instagram" className="hover:text-[#C1533B] transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+            </a>
+            <a href="#" aria-label="Facebook" className="hover:text-[#C1533B] transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+            </a>
+          </div>
+        </div>
+
+        {/* Columna 2: Navegación */}
+        <div>
+          <h4 className="font-mono text-[#C1533B] text-[10px] tracking-[0.3em] uppercase mb-6">
+            La Historia
+          </h4>
+          <ul className="space-y-4 text-sm font-light text-[#E8E2D2]/70">
+            <li><a href="#inicio" className="hover:text-[#C1533B] transition-colors">El Origen</a></li>
+            <li><a href="#pasado" className="hover:text-[#C1533B] transition-colors">Juventud y Sangre</a></li>
+            <li><a href="#retiro" className="hover:text-[#C1533B] transition-colors">11 años de silencio</a></li>
+            <li><a href="#hoguera" className="hover:text-[#C1533B] transition-colors">El Juicio Final</a></li>
+            <li><a href="#legado" className="hover:text-[#C1533B] transition-colors">El Legado Actual</a></li>
+          </ul>
+        </div>
+
+        {/* Columna 3: Información */}
+        <div>
+          <h4 className="font-mono text-[#C1533B] text-[10px] tracking-[0.3em] uppercase mb-6">
+            Investigación
+          </h4>
+          <ul className="space-y-4 text-sm font-light text-[#E8E2D2]/70">
+            <li className="flex items-start gap-3">
+              <BookOpen size={16} className="shrink-0 mt-0.5 text-[#C1533B]/60" />
+              <span className="leading-tight">Libro "Del desierto a la hoguera" (Patricia Enciso Patiño)</span>
+            </li>
+            <li className="flex items-start gap-3 mt-4">
+              <MapPin size={16} className="shrink-0 mt-0.5 text-[#C1533B]/60" />
+              <span className="leading-tight">Desierto de la Candelaria, Boyacá, Colombia</span>
+            </li>
+            <li className="flex items-center gap-3 mt-4">
+              <Mail size={16} className="shrink-0 text-[#C1533B]/60" />
+              <a href="mailto:contacto@josephximenez.com" className="hover:text-[#C1533B] transition-colors">contacto@josephximenez.com</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Bottom Line */}
+      <div className="max-w-6xl mx-auto px-6 md:px-12 pt-8 border-t border-[#E8E2D2]/5 flex flex-col md:flex-row justify-between items-center gap-4 text-[#E8E2D2]/30 text-xs">
+        <p>© {new Date().getFullYear()} Proyecto Joseph Ximénez. Todos los derechos reservados.</p>
+        <div className="flex gap-6">
+          <a href="#" className="hover:text-[#E8E2D2]/80 transition-colors">Políticas de Privacidad</a>
+          <a href="#" className="hover:text-[#E8E2D2]/80 transition-colors">Términos Legales</a>
+        </div>
+      </div>
+    </footer>
+  );
+};
