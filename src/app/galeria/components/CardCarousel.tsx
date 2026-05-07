@@ -2,30 +2,48 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronRight, ChevronLeft, Image as ImageIcon, RotateCcw } from "lucide-react";
+import { Image as ImageIcon, RotateCcw, MoveHorizontal, ChevronLeft, ChevronRight } from "lucide-react";
 import { CARDS } from "@/data/galeriaData";
 
 export const CardCarousel = () => {
   const [cards, setCards] = useState(CARDS);
   const [flippedCards, setFlippedCards] = useState<Record<number, boolean>>({});
+  const [animatingDir, setAnimatingDir] = useState<"left" | "right" | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  React.useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   const handleNext = () => {
-    setCards((prevCards) => {
-      const newArray = [...prevCards];
-      const frontCard = newArray.shift();
-      if (frontCard) newArray.push(frontCard);
-      return newArray;
-    });
-    // Opcional: resetear flips al cambiar de carta, o mantenerlos
+    if (animatingDir) return;
+    setAnimatingDir("left");
+    setTimeout(() => {
+      setCards((prevCards) => {
+        const newArray = [...prevCards];
+        const frontCard = newArray.shift();
+        if (frontCard) newArray.push(frontCard);
+        return newArray;
+      });
+      setAnimatingDir(null);
+    }, 250);
   };
 
   const handlePrev = () => {
-    setCards((prevCards) => {
-      const newArray = [...prevCards];
-      const backCard = newArray.pop();
-      if (backCard) newArray.unshift(backCard);
-      return newArray;
-    });
+    if (animatingDir) return;
+    setAnimatingDir("right");
+    setTimeout(() => {
+      setCards((prevCards) => {
+        const newArray = [...prevCards];
+        const backCard = newArray.pop();
+        if (backCard) newArray.unshift(backCard);
+        return newArray;
+      });
+      setAnimatingDir(null);
+    }, 250);
   };
 
   const toggleFlip = (id: number) => {
@@ -75,10 +93,30 @@ export const CardCarousel = () => {
                 <motion.div
                   key={card.id}
                   layout
+                  drag={isFront && isMobile ? "x" : false}
+                  dragConstraints={{ left: 0, right: 0 }}
+                  onDragEnd={(e, { offset }) => {
+                    if (offset.x > 50) {
+                      setCards((prevCards) => {
+                        const newArray = [...prevCards];
+                        const backCard = newArray.pop();
+                        if (backCard) newArray.unshift(backCard);
+                        return newArray;
+                      });
+                    } else if (offset.x < -50) {
+                      setCards((prevCards) => {
+                        const newArray = [...prevCards];
+                        const frontCard = newArray.shift();
+                        if (frontCard) newArray.push(frontCard);
+                        return newArray;
+                      });
+                    }
+                  }}
                   initial={{ opacity: 0, scale: 0.8, y: 100 }}
                   animate={{
                     opacity: opacity,
                     scale: scale,
+                    x: isFront && animatingDir === "left" ? -250 : isFront && animatingDir === "right" ? 250 : 0,
                     y: yOffset,
                     zIndex: zIndex,
                   }}
@@ -87,7 +125,7 @@ export const CardCarousel = () => {
                     stiffness: 260,
                     damping: 20,
                   }}
-                  className={`absolute inset-0 shadow-[0_20px_50px_rgba(0,0,0,0.5)] ${isFront ? 'cursor-default' : 'cursor-pointer pointer-events-none'}`}
+                  className={`absolute inset-0 shadow-[0_20px_50px_rgba(0,0,0,0.5)] ${isFront ? 'cursor-grab active:cursor-grabbing' : 'cursor-default pointer-events-none'}`}
                   style={{ transformOrigin: "bottom center", perspective: 1000 }}
                 >
                   <motion.div
@@ -122,13 +160,13 @@ export const CardCarousel = () => {
                         </p>
                         
                         {/* Botón para ver imagen (Flip) */}
-                        <div className="mt-6 flex justify-end">
+                        <div className="mt-6 flex justify-center">
                           <button 
                             onClick={(e) => { e.stopPropagation(); toggleFlip(card.id); }}
                             className={`group flex items-center gap-2 text-xs font-mono tracking-widest uppercase transition-colors duration-300 ${isFront ? 'text-[#C1533B] hover:text-[#E8E2D2] pointer-events-auto' : 'text-transparent pointer-events-none'}`}
                           >
+                            <RotateCcw size={14} className="transition-transform duration-500 group-hover:-rotate-180" />
                             Ver Imagen
-                            <ImageIcon size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
                           </button>
                         </div>
                       </div>
@@ -150,12 +188,12 @@ export const CardCarousel = () => {
                         <p className="text-[#E8E2D2]/60 text-sm font-light mb-8 italic">Archivo visual</p>
                         
                         {/* Botón para volver al texto */}
-                        <div className="flex justify-start">
+                        <div className="flex justify-center">
                           <button 
                             onClick={(e) => { e.stopPropagation(); toggleFlip(card.id); }}
                             className={`group flex items-center gap-2 text-xs font-mono tracking-widest uppercase transition-colors duration-300 ${isFront ? 'text-[#C1533B] hover:text-[#E8E2D2] pointer-events-auto' : 'text-transparent pointer-events-none'}`}
                           >
-                            <RotateCcw size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
+                            <RotateCcw size={14} className="transition-transform duration-500 group-hover:-rotate-180" />
                             Volver al texto
                           </button>
                         </div>
@@ -168,8 +206,16 @@ export const CardCarousel = () => {
             })}
           </AnimatePresence>
 
-          {/* Flechas de Navegación Laterales */}
-          <div className="absolute top-1/2 -left-16 md:-left-24 -translate-y-1/2 z-20">
+          {/* Indicador de Deslizar (Solo Mobile) */}
+          <div className="absolute -bottom-16 left-1/2 -translate-x-1/2 z-20 flex-col items-center gap-2 opacity-60 flex md:hidden">
+            <MoveHorizontal size={20} className="text-[#E8E2D2] animate-pulse" />
+            <span className="font-mono text-[10px] tracking-widest uppercase text-[#E8E2D2]">
+              Desliza para explorar
+            </span>
+          </div>
+
+          {/* Flechas de Navegación Laterales (Solo Desktop) */}
+          <div className="absolute top-1/2 -left-16 md:-left-24 -translate-y-1/2 z-20 hidden md:block">
             <button 
               onClick={handlePrev}
               className="p-3 rounded-full bg-[#100F0D]/80 border border-[#DDD8CF]/10 text-[#DDD8CF] hover:text-[#C1533B] hover:border-[#C1533B]/30 transition-all backdrop-blur-md"
@@ -178,7 +224,7 @@ export const CardCarousel = () => {
               <ChevronLeft size={24} />
             </button>
           </div>
-          <div className="absolute top-1/2 -right-16 md:-right-24 -translate-y-1/2 z-20">
+          <div className="absolute top-1/2 -right-16 md:-right-24 -translate-y-1/2 z-20 hidden md:block">
             <button 
               onClick={handleNext}
               className="p-3 rounded-full bg-[#100F0D]/80 border border-[#DDD8CF]/10 text-[#DDD8CF] hover:text-[#C1533B] hover:border-[#C1533B]/30 transition-all backdrop-blur-md"
