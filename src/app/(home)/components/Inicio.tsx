@@ -3,9 +3,9 @@
 import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 
-export default function Act1() {
+export default function Inicio() {
   return (
-    <section id="inicio" className="relative min-h-[100dvh] w-full flex flex-col items-center justify-center overflow-hidden">
+    <section id="inicio" className="relative min-h-[100dvh] w-full flex flex-col items-center justify-center overflow-hidden bg-transparent">
       
       {/* Glow animado copiado de la página principal */}
       <motion.div 
@@ -73,9 +73,31 @@ export default function Act1() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 3.5 }}
-        className="absolute bottom-8 md:bottom-10 flex flex-col items-center gap-1"
+        className="absolute bottom-8 md:bottom-10 flex flex-col items-center gap-1 cursor-pointer group"
+        onClick={() => {
+          const titleEl = document.getElementById("pasado-title");
+          if (titleEl) {
+            const targetY = titleEl.getBoundingClientRect().top + window.scrollY - 80;
+            const startY = window.scrollY;
+            const distance = targetY - startY;
+            const duration = 1000; // 1 segundo
+            let start: number | null = null;
+            
+            const step = (timestamp: number) => {
+              if (!start) start = timestamp;
+              const progress = Math.min((timestamp - start) / duration, 1);
+              // EaseInOutCubic
+              const ease = progress < 0.5 ? 4 * progress * progress * progress : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+              window.scrollTo(0, startY + distance * ease);
+              if (progress < 1) {
+                window.requestAnimationFrame(step);
+              }
+            };
+            window.requestAnimationFrame(step);
+          }
+        }}
       >
-        <span className="font-mono text-[9px] md:text-[10px] tracking-widest uppercase text-[#E8E2D2]/30 mb-1">
+        <span className="font-mono text-[9px] md:text-[10px] tracking-widest uppercase text-[#E8E2D2]/30 mb-1 transition-colors duration-300 group-hover:text-[#C1533B]/80">
           Descubrir más
         </span>
         <motion.div
@@ -86,7 +108,7 @@ export default function Act1() {
             size={34} 
             color="#C1533B" 
             strokeWidth={1.5} 
-            className="opacity-80 drop-shadow-[0_0_8px_rgba(193,83,59,0.8)]"
+            className="opacity-80 drop-shadow-[0_0_8px_rgba(193,83,59,0.8)] transition-opacity duration-300 group-hover:opacity-100"
           />
         </motion.div>
       </motion.div>
