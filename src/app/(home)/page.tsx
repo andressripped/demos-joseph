@@ -6,6 +6,7 @@ import Pasado from "./components/Pasado";
 import Retiro from "./components/Retiro";
 import Hoguera from "./components/Hoguera";
 import Legado from "./components/Legado";
+import { InteractiveMap } from "./components/InteractiveMap";
 import { Navbar } from "@/layout/Navbar";
 import { Footer } from "@/layout/Footer";
 import { TimelineSidebar } from "@/app/(home)/components/TimelineSidebar";
@@ -29,6 +30,8 @@ export default function HomePage() {
         <Retiro />
         <Hoguera />
         <Legado />
+        
+        <InteractiveMap />
         
         <Footer />
 

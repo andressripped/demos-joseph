@@ -1,183 +1,191 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Navbar } from "@/layout/Navbar";
 import { Footer } from "@/layout/Footer";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronRight, ArrowRight, BookOpen } from "lucide-react";
+import Link from "next/link";
 
-// Eliminamos la propiedad "color" y usamos #7A3B22 globalmente para el activo.
-const ACTIVE_COLOR = "#7A3B22";
-
-const chapters = [
-  { id:"I", year:"1632", title:"El soldado", sub:"Guaro, Málaga",
-    body:"Hijo de labradores, Joseph creció entre olivos y tierra árida. Con 18 años se enroló en el ejército. Diez años de guerra moldearon a un hombre inquieto, incapaz de quedarse quieto. Ni la tierra natal, ni el amor de Ana, ni las llanuras de Garzón lograron retenerlo." },
-  { id:"II", year:"1662", title:"La traición", sub:"Garzón, Huila",
-    body:"Se casó con Juana. Dos años de paz en Garzón. Pero la infidelidad rompió el único hilo que lo ataba al mundo. Una noche, acostado a su lado, escuchó algo que no era humano. Al amanecer, ya no estaba." },
-  { id:"III", year:"1665", title:"El desierto", sub:"Candelaria, Boyacá",
-    body:"Un pájaro le mostró el lugar. Construyó una choza. Dormía sobre tablas sin cubrirse, aunque helara. Se alimentaba de raíces y vegetales. Durante once años, no fue nadie. O lo fue todo." },
-  { id:"IV", year:"1676", title:"La denuncia", sub:"Oicatá, Boyacá",
-    body:"El cura Agustín de Tovar llegó con curiosidad y se fue con miedo. Los cuadernos de Joseph —sus 29 tomos— eran demasiado libres, demasiado directos, demasiado peligrosos para el dogma imperante." },
-  { id:"V", year:"1688", title:"La hoguera", sub:"Cartagena de Indias",
-    body:"Doce años de cárcel secreta no le arrancaron ni una sola retractación. El 30 de mayo de 1688, en el gran Auto de Fe, Joseph Ximénez ardió. Y con él, la versión oficial de la historia que intentó callarlo." },
-];
+const fadeUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
+};
 
 export default function BlogPage() {
-  const [active, setActive] = useState(0);
-  const trackRef = useRef<HTMLDivElement>(null);
-
-  // Lógica matemática de scroll progresivo
-  useEffect(() => {
-    if (trackRef.current) {
-      const container = trackRef.current;
-      const maxScroll = container.scrollWidth - container.clientWidth;
-      const progress = active / (chapters.length - 1);
-      const targetScroll = maxScroll * progress;
-      
-      container.scrollTo({ left: targetScroll, behavior: 'smooth' });
-    }
-  }, [active]);
-
   return (
     <>
       <Navbar />
-      
-      <main className="font-sans flex flex-col min-h-[100dvh] pt-[76px]" style={{ background:"#F4F1EA", color:"#2B2A29" }}>
+      <div className="min-h-screen bg-[#F4F1EA] pt-32 pb-24 text-[#2B2A29] selection:bg-[#7A3B22] selection:text-[#F4F1EA]">
         
-        {/* LAYOUT PRINCIPAL DEL LIBRO */}
-        <div className="flex flex-col md:flex-row flex-1">
+        {/* HEADER */}
+        <header className="mb-20 flex flex-col items-center text-center px-6">
+          <motion.span 
+            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+            className="font-sans text-[10px] tracking-[0.4em] uppercase text-[#7A3B22] mb-6 font-bold"
+          >
+            Revista de Investigación e Historia
+          </motion.span>
+          <motion.h1 
+            initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
+            className="font-serif text-[clamp(3.5rem,8vw,7rem)] leading-[0.9] tracking-tight text-[#100F0D]"
+          >
+            Ecos del <br/><span className="italic text-[#7A3B22]">Desierto</span>
+          </motion.h1>
+          <motion.p
+             initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}
+             className="mt-8 font-light text-[#2B2A29]/60 max-w-xl text-sm md:text-base"
+          >
+            Explorando el contexto histórico, la vida eremítica y los secretos inquisitoriales detrás de la vida de Joseph Ximénez (1632-1688).
+          </motion.p>
+        </header>
+
+        <div className="max-w-7xl mx-auto px-6">
           
-          {/* =========================================
-              SIDEBAR DESKTOP (Solo visible en md y lg)
-              ========================================= */}
-          <div className="hidden md:flex flex-col flex-shrink-0 overflow-y-auto custom-scrollbar shadow-[4px_0_20px_rgba(0,0,0,0.05)] z-10 w-56 lg:w-80" style={{ background:"#2B2A29" }}>
-            {chapters.map((c, i) => (
-              <button key={c.id} onClick={() => setActive(i)}
-                className="px-6 py-6 lg:py-8 text-left transition-all duration-300 relative border-b border-white/5"
-                style={{ background:active===i ? ACTIVE_COLOR : "transparent" }}>
-                <span className="block font-mono text-xs mb-1" style={{ color:active===i?"rgba(244,241,234,0.65)":"rgba(221,216,207,0.25)" }}>{c.year}</span>
-                <span className="block font-serif italic text-base lg:text-lg leading-tight" style={{ color:active===i?"#F4F1EA":"rgba(221,216,207,0.4)" }}>{c.title}</span>
-              </button>
-            ))}
-          </div>
-
-          {/* =========================================
-              CARRUSEL MÓVIL (Deslizamiento proporcional)
-              ========================================= */}
-          <div className="md:hidden relative z-10 shadow-[0_4px_20px_rgba(0,0,0,0.05)] bg-[#2B2A29] py-4">
+          {/* MAIN FEATURE & SIDEBAR */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start mb-24 border-b border-[#2B2A29]/10 pb-24">
             
-            {/* Indicador Flotante Izquierdo con Gradiente */}
-            <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-[#2B2A29] via-[#2B2A29]/80 to-transparent z-20 flex items-center justify-start pl-2 pointer-events-none">
-              <button 
-                onClick={() => setActive(a => Math.max(0, a-1))} 
-                disabled={active===0}
-                className="p-1 text-[#F4F1EA]/50 disabled:opacity-0 hover:text-[#F4F1EA] transition-opacity pointer-events-auto"
-              >
-                <ChevronLeft size={24} />
-              </button>
-            </div>
-            
-            {/* Pista de pestañas deslizante */}
-            <div ref={trackRef} className="flex overflow-hidden px-10 gap-3 scroll-smooth custom-scrollbar">
-              {chapters.map((c, i) => {
-                const isActive = active === i;
-                return (
-                  <button 
-                    key={c.id} 
-                    onClick={() => setActive(i)}
-                    className={`flex-shrink-0 px-5 py-3 rounded-lg text-left transition-all duration-300 min-w-[160px] ${
-                      isActive ? "scale-100 opacity-100 shadow-lg" : "scale-90 opacity-40 hover:opacity-70"
-                    }`}
-                    style={{ background: isActive ? ACTIVE_COLOR : "rgba(255,255,255,0.05)" }}
-                  >
-                    <span className="block font-mono text-[10px] mb-1 transition-colors duration-300" style={{ color: isActive ? "rgba(244,241,234,0.65)" : "rgba(255,255,255,0.5)" }}>
-                      {c.year}
-                    </span>
-                    <span className="block font-serif italic text-base leading-tight transition-colors duration-300" style={{ color: isActive ? "#F4F1EA" : "rgba(255,255,255,0.8)" }}>
-                      {c.title}
-                    </span>
-                  </button>
-                )
-              })}
-            </div>
-            
-            {/* Indicador Flotante Derecho con Gradiente */}
-            <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-[#2B2A29] via-[#2B2A29]/80 to-transparent z-20 flex items-center justify-end pr-2 pointer-events-none">
-              <button 
-                onClick={() => setActive(a => Math.min(chapters.length-1, a+1))} 
-                disabled={active===chapters.length-1}
-                className="p-1 text-[#F4F1EA]/50 disabled:opacity-0 hover:text-[#F4F1EA] transition-opacity pointer-events-auto"
-              >
-                <ChevronRight size={24} />
-              </button>
-            </div>
-          </div>
-
-          {/* =========================================
-              PANEL DE CONTENIDO (ZONA DE LECTURA)
-              ========================================= */}
-          <div className="flex-1 flex flex-col bg-[#F4F1EA] relative min-h-[60vh] md:min-h-[80vh]">
-            
-            {/* Animación de Cambio de Capítulo */}
-            <AnimatePresence mode="wait">
-              <motion.div 
-                key={active} 
-                initial={{ opacity:0, y:15 }} 
-                animate={{ opacity:1, y:0 }} 
-                exit={{ opacity:0, y:-15 }}
-                transition={{ duration:0.3, ease:"easeOut" }}
-                className="flex-1 flex flex-col p-8 md:p-16 lg:p-24 relative overflow-hidden"
-              >
-                {/* Año como gran marca de agua al fondo */}
-                <div className="absolute bottom-10 right-10 select-none pointer-events-none" aria-hidden>
-                  <p className="font-serif font-bold leading-none" style={{ fontSize:"clamp(80px,15vw,220px)", color:"rgba(43,42,41,0.03)" }}>
-                    {chapters[active].year}
-                  </p>
+            {/* MAIN ARTICLE */}
+            <motion.div 
+              initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-10%" }} variants={fadeUp}
+              className="lg:col-span-8 group cursor-pointer"
+            >
+              <Link href="/blog/hallazgo-folio-22" className="block">
+                <div className="aspect-[16/9] md:aspect-[21/9] bg-[#100F0D] mb-8 overflow-hidden relative rounded-sm shadow-xl">
+                  <div className="w-full h-full bg-[radial-gradient(ellipse_at_center,rgba(122,59,34,0.15)_0%,rgba(16,15,13,1)_100%)] group-hover:scale-105 transition-transform duration-1000 flex items-center justify-center">
+                    <span className="font-serif italic text-[#F4F1EA]/10 text-6xl">Folio 22</span>
+                  </div>
                 </div>
-
-                {/* Contenido Textual */}
-                <div className="relative z-10 max-w-3xl">
-                  <span className="block text-[10px] md:text-xs tracking-[0.4em] uppercase mb-4 md:mb-6 font-bold" style={{ color: ACTIVE_COLOR }}>
-                    Capítulo {chapters[active].id} · {chapters[active].sub}
-                  </span>
-                  
-                  <h2 className="font-serif mb-6 md:mb-10 leading-tight" style={{ fontSize:"clamp(40px,7vw,80px)", color:"#2B2A29" }}>
-                    {chapters[active].title}
+                <div className="pl-4 border-l-2 border-[#7A3B22]">
+                  <span className="font-sans text-[10px] font-bold text-[#7A3B22] uppercase tracking-widest mb-3 block">Investigación · Madrid, 1995</span>
+                  <h2 className="font-serif text-4xl md:text-5xl leading-tight mb-4 group-hover:text-[#7A3B22] transition-colors text-[#100F0D]">
+                    El hallazgo del Folio 22: Un proceso inquisitorial olvidado
                   </h2>
-                  
-                  <p className="text-lg md:text-2xl leading-relaxed font-light" style={{ color:"rgba(43,42,41,0.75)" }}>
-                    {chapters[active].body}
+                  <p className="font-light text-lg text-[#2B2A29]/80 leading-relaxed max-w-2xl mb-6">
+                    Durante siglos, la historia oficial silenció el destino de un ermitaño que escribió 29 cuadernos bajo "dictado divino". El descubrimiento de los archivos secretos de la Inquisición de Cartagena de Indias en Madrid abrió la puerta a una historia de herejía y martirio.
                   </p>
+                  <div className="flex items-center gap-2 text-xs uppercase tracking-widest font-bold text-[#7A3B22] group-hover:translate-x-2 transition-transform">
+                    Leer artículo completo <ChevronRight size={14} />
+                  </div>
                 </div>
-              </motion.div>
-            </AnimatePresence>
+              </Link>
+            </motion.div>
 
-            {/* Navegación inferior (Anterior / Siguiente) */}
-            <div className="flex items-center justify-between px-8 md:px-16 lg:px-24 py-6 mt-auto" style={{ borderTop:"1px solid rgba(43,42,41,0.08)" }}>
-              <button onClick={() => setActive(a => Math.max(0,a-1))} disabled={active===0}
-                className="text-xs md:text-sm font-semibold tracking-widest uppercase transition-all disabled:opacity-20 hover:opacity-60"
-                style={{ color:"#2B2A29" }}>← Anterior</button>
+            {/* SIDEBAR ARTICLES */}
+            <motion.div 
+              initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-10%" }} variants={fadeUp}
+              className="lg:col-span-4 space-y-12 lg:border-l border-[#2B2A29]/10 lg:pl-12"
+            >
+              <Link href="/blog/ermitano-siglo-xvii" className="group cursor-pointer block">
+                <span className="font-sans text-[10px] font-bold text-[#7A3B22] uppercase tracking-widest mb-2 block">Cultura y Sociedad</span>
+                <h3 className="font-serif text-2xl leading-snug group-hover:text-[#7A3B22] transition-colors mb-3 text-[#100F0D]">
+                  ¿Qué significaba ser un ermitaño en el siglo XVII?
+                </h3>
+                <p className="font-light text-sm text-[#2B2A29]/70 leading-relaxed">
+                  Aislarse en el Desierto de la Candelaria, alimentarse de raíces y dormir sobre tablas no era solo penitencia; era un acto de rebeldía espiritual que rozaba los límites del dogma permitido.
+                </p>
+              </Link>
               
-              <span className="font-mono text-xs" style={{ color:"rgba(43,42,41,0.3)" }}>{active+1} / {chapters.length}</span>
-              
-              <button onClick={() => setActive(a => Math.min(chapters.length-1,a+1))} disabled={active===chapters.length-1}
-                className="text-xs md:text-sm font-semibold tracking-widest uppercase transition-all disabled:opacity-20 hover:opacity-70"
-                style={{ color: ACTIVE_COLOR }}>Siguiente →</button>
+              <div className="w-12 h-[1px] bg-[#2B2A29]/10" />
+
+              <Link href="/blog/esculpiendo-silencio" className="group cursor-pointer block">
+                <span className="font-sans text-[10px] font-bold text-[#7A3B22] uppercase tracking-widest mb-2 block">Memoria y Arte</span>
+                <h3 className="font-serif text-2xl leading-snug group-hover:text-[#7A3B22] transition-colors mb-3 text-[#100F0D]">
+                  Esculpiendo el silencio: El rostro de Joseph
+                </h3>
+                <p className="font-light text-sm text-[#2B2A29]/70 leading-relaxed">
+                  El artista Eduardo Rodríguez, vecino de Ráquira, ha creado una escultura tridimensional que le devuelve el rostro al místico, reivindicando su figura como mártir del desierto.
+                </p>
+              </Link>
+            </motion.div>
+          </div>
+
+          {/* GRID SECUNDARIO */}
+          <div className="mb-24">
+            <div className="flex justify-between items-end mb-12 border-b border-[#2B2A29]/10 pb-4">
+              <h3 className="font-serif text-3xl text-[#100F0D]">Más lecturas</h3>
+              <span className="text-xs font-bold uppercase tracking-widest text-[#7A3B22] transition-colors flex items-center gap-1 opacity-50">
+                Archivo Histórico <ArrowRight size={14}/>
+              </span>
             </div>
 
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-16">
+              
+              <motion.article initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-10%" }} variants={fadeUp} className="group cursor-pointer">
+                <Link href="/blog/auto-de-fe-1688" className="block">
+                  <div className="aspect-[4/3] bg-[#E8E2D2] mb-6 overflow-hidden rounded-sm relative">
+                     <div className="w-full h-full bg-[radial-gradient(circle_at_top_right,#E8E2D2,#D5CFC1)] group-hover:scale-105 transition-transform duration-700" />
+                     <div className="absolute inset-0 bg-[#2B2A29]/5" />
+                  </div>
+                  <div className="flex gap-4 items-baseline mb-3">
+                    <span className="font-mono text-[10px] tracking-widest text-[#7A3B22] uppercase">Contexto Histórico</span>
+                    <span className="font-mono text-[10px] text-[#2B2A29]/40">7 min de lectura</span>
+                  </div>
+                  <h4 className="font-serif text-2xl text-[#100F0D] group-hover:text-[#7A3B22] transition-colors mb-3">El Auto de Fe de 1688 en Cartagena de Indias</h4>
+                  <p className="font-light text-[#2B2A29]/70 text-sm leading-relaxed">
+                    De 711 procesos inquisitoriales en Nueva Granada a lo largo de 200 años, solo siete hombres fueron condenados a la hoguera por herejía formal. Joseph fue el único místico entre ellos.
+                  </p>
+                </Link>
+              </motion.article>
+
+              <motion.article initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-10%" }} variants={fadeUp} className="group cursor-pointer">
+                <Link href="/blog/frontera-mental-misticismo" className="block">
+                  <div className="aspect-[4/3] bg-[#E8E2D2] mb-6 overflow-hidden rounded-sm relative">
+                     <div className="w-full h-full bg-[radial-gradient(circle_at_bottom_left,#E8E2D2,#D5CFC1)] group-hover:scale-105 transition-transform duration-700" />
+                     <div className="absolute inset-0 bg-[#2B2A29]/5" />
+                  </div>
+                  <div className="flex gap-4 items-baseline mb-3">
+                    <span className="font-mono text-[10px] tracking-widest text-[#7A3B22] uppercase">Psicología y Fe</span>
+                    <span className="font-mono text-[10px] text-[#2B2A29]/40">5 min de lectura</span>
+                  </div>
+                  <h4 className="font-serif text-2xl text-[#100F0D] group-hover:text-[#7A3B22] transition-colors mb-3">La frontera mental del misticismo</h4>
+                  <p className="font-light text-[#2B2A29]/70 text-sm leading-relaxed">
+                    Creerse un instrumento de Dios lo situó en una frontera peligrosa. Al dejar de confesarse por sentir "unión directa" con lo divino, selló su condena a muerte frente a un tribunal inflexible.
+                  </p>
+                </Link>
+              </motion.article>
+
+            </div>
           </div>
+
         </div>
 
-        {/* Cita final */}
-        <section className="py-24 px-6 text-center border-b border-[#100F0D]/5" style={{ background:"#1A1918" }}>
-          <p className="font-serif italic leading-snug max-w-4xl mx-auto" style={{ fontSize:"clamp(24px,4vw,40px)", color:"rgba(244,241,234,0.65)" }}>
-            "Es el momento de reparar su memoria, pues fue martirizado por sus ideas."
-          </p>
-          <p className="mt-8 text-xs tracking-[0.3em] uppercase" style={{ color: ACTIVE_COLOR }}>— Patricia Enciso Patiño</p>
+        {/* AUTHOR & BOOK PROMO SECTION */}
+        <section className="bg-[#100F0D] text-[#E8E2D2] py-24 px-6 mt-12 relative overflow-hidden">
+           {/* Textura de fondo sutil */}
+           <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(circle,#E8E2D2_1px,transparent_1px)]" style={{ backgroundSize: "40px 40px" }} />
+           
+           <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center relative z-10">
+              <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
+                <span className="font-sans text-[10px] text-[#C1533B] font-bold tracking-[0.3em] uppercase block mb-4">Sobre la Autora</span>
+                <h3 className="font-serif text-4xl mb-6 leading-tight">Patricia Enciso Patiño</h3>
+                <p className="font-light text-[#E8E2D2]/60 text-sm leading-relaxed mb-6">
+                  PhD en Historia Social por la Universidad Federal Fluminense (Río de Janeiro) y Magíster en Historia de la Universidad Nacional de Colombia. Ha dedicado gran parte de su vida a investigar archivos coloniales, rescatando del silencio historias perdidas en los márgenes de la Inquisición.
+                </p>
+                <div className="flex gap-4 items-center">
+                  <div className="w-10 h-[1px] bg-[#C1533B]" />
+                  <span className="font-mono text-xs text-[#E8E2D2]/40 italic">Investigadora Principal</span>
+                </div>
+              </motion.div>
+
+              <motion.div 
+                initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
+                className="bg-[#1A1918] p-10 border border-[#E8E2D2]/10 flex flex-col items-center text-center rounded-sm"
+              >
+                <div className="bg-[#C1533B]/10 p-4 rounded-full mb-6">
+                  <BookOpen className="text-[#C1533B]" size={32} />
+                </div>
+                <h4 className="font-serif text-2xl mb-4">Del desierto a la hoguera</h4>
+                <p className="font-light text-sm text-[#E8E2D2]/50 mb-8 max-w-sm">
+                  Adquiere el libro completo y sumérgete en los folios inquisitoriales que revelan la verdad sobre Joseph Ximénez.
+                </p>
+                <button className="w-full md:w-auto px-8 py-4 bg-[#E8E2D2] text-[#100F0D] text-xs font-bold uppercase tracking-widest hover:bg-[#C1533B] hover:text-[#E8E2D2] transition-colors rounded-sm">
+                  Comprar Libro
+                </button>
+              </motion.div>
+           </div>
         </section>
 
-      </main>
-
+      </div>
       <Footer />
     </>
   );
