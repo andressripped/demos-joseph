@@ -2,14 +2,28 @@
 
 import { motion } from "framer-motion";
 
-export default function Act4() {
+export default function Legado() {
   return (
     <section id="legado" className="relative z-30 bg-transparent text-[#E8E2D2] pt-32 pb-12 overflow-hidden border-t border-[#C1533B]/10">
       
+      {/* Marca de agua gigante de JX */}
+      <div className="absolute inset-0 pointer-events-none select-none flex items-center justify-center overflow-hidden opacity-[0.03]">
+        <motion.p 
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.5, ease: "easeOut" }}
+          className="font-serif font-bold leading-none text-center" 
+          style={{ fontSize: "40vw", color: "#C1533B", WebkitTextStroke: "1px rgba(193,83,59,0.4)" }}
+        >
+          JX
+        </motion.p>
+      </div>
+
       {/* Luz tenue de fondo para diferenciar la época */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1000px] h-[500px] bg-[radial-gradient(ellipse_at_top,rgba(232,226,210,0.03)_0%,transparent_70%)] pointer-events-none" />
 
-      <div className="max-w-6xl mx-auto px-6 md:px-12 relative z-10">
+      <div className="max-w-6xl mx-auto px-6 md:pr-12 lg:pl-[140px] relative z-10">
         
         {/* ENCABEZADO DEL LEGADO */}
         <motion.div 

@@ -30,9 +30,9 @@ function TimelineItem({ item }: { item: any }) {
           {item.title}
         </h3>
         
-        {/* Contenido Acordeón (Solo Móvil) */}
+        {/* Contenido Acordeón (Solo Móvil y Tablet) */}
         <div 
-          className={`grid transition-[grid-template-rows,opacity,margin-top] duration-700 ease-out md:!grid-rows-[1fr] md:!opacity-100 md:!mt-0 ${
+          className={`grid transition-[grid-template-rows,opacity,margin-top] duration-700 ease-out lg:!grid-rows-[1fr] lg:!opacity-100 lg:!mt-0 ${
             isInView ? "grid-rows-[1fr] opacity-100 mt-4" : "grid-rows-[0fr] opacity-0 mt-0"
           }`}
         >
@@ -47,7 +47,7 @@ function TimelineItem({ item }: { item: any }) {
   );
 }
 
-export default function Act2() {
+export default function Pasado() {
   const timeline = [
     {
       year: "1632",
@@ -93,6 +93,7 @@ export default function Act2() {
       <div className="max-w-5xl mx-auto px-6 md:px-12 py-24 md:py-40">
         
         <motion.div 
+          id="pasado-title"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-10%" }}
@@ -123,7 +124,7 @@ export default function Act2() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-20%" }}
           transition={{ duration: 1 }}
-          className="relative z-10 max-w-4xl mx-auto border border-[#E8E2D2]/10 p-10 md:p-16 bg-[#100F0D]/50 backdrop-blur-sm"
+          className="relative z-10 max-w-4xl mx-auto lg:pl-[140px] border border-[#E8E2D2]/10 p-10 md:p-16 bg-[#100F0D]/50 backdrop-blur-sm"
         >
           <span className="absolute -top-10 left-1/2 -translate-x-1/2 font-serif text-[#C1533B]/20 text-9xl leading-none">"</span>
           <p className="font-serif text-[clamp(1.8rem,4vw,3rem)] text-[#E8E2D2] leading-snug">

@@ -37,7 +37,7 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${playfair.variable} ${outfit.variable} ${courgette.variable} h-full antialiased`}
     >
-      <body suppressHydrationWarning className="min-h-full flex flex-col font-sans">
+      <body suppressHydrationWarning className="min-h-full flex flex-col font-sans bg-[#100F0D] text-[#DDD8CF]">
         {children}
       </body>
     </html>
